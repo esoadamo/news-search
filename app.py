@@ -34,18 +34,26 @@ def get_saved_search_queries() -> List[str]:
 
 @app.route('/', methods=['GET', 'POST'])
 def page_home():
-    search_query = request.args.get('search')
+    search_query = request.args.get('search', '')
     search = None
+    search_new = False
     if search_query:
-        if search_query not in db['searches']:
+        if search_query not in db['searches'] or request.args.get('action', '') == 'force-refresh':
             perform_search(search_query)
+            search_new = True
         search = db['searches'][search_query]
+
+    search['articles']['articles'] = sorted(
+        search['articles']['articles'],
+        key=lambda x: datetime.fromisoformat(x['publishedAt']), reverse=True
+    )
 
     return render_template(
         'base.html',
         search_query=search_query,
         search=search,
-        saved=get_saved_search_queries()
+        saved=get_saved_search_queries(),
+        search_new=search_new
     )
 
 

@@ -2,21 +2,85 @@
 <head>
     <title>News Search</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        * {
+            font-family: "Open Sans", Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 10em;
+            border-right: 1px solid #ccc;
+            padding: 4px;
+        }
+
+        .content {
+            padding: 8px 16px;
+
+            .info {
+                text-align: center;
+            }
+
+            .form-search {
+                display: flex;
+                justify-content: center;
+                margin: 20px 0;
+
+                & > * {
+                    font-size: 20px;
+                }
+
+                & > input {
+                    flex-grow: 1;
+                }
+            }
+        }
+    </style>
 </head>
 
 <body>
-<div class="sidebar"></div>
+<div class="sidebar">
+    <b>Recent searches</b>
+    <ul>
+        {% for query in saved %}
+        <li>
+            <a href="?search={{ query }}">{{ query[:60] }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
 <div class="content">
-    <form>
+    <form class="form-search">
         <input type="text" name="search" placeholder="Search news" aria-label="Search news" value="{{ search_query }}">
-        <button type="submit">Search</button>
+        <button type="submit" name="action" value="">Search</button>
+        {% if not search_new %}
+            <button name="action" value="force-refresh">Refresh search results</button>
+        {% endif %}
     </form>
 
     {% if search %}
+    <div class="info">
+        {% if search_new %}
+            The search was performed just now.
+        {% else %}
+            Search previously performed at {{ search.searched_at }}
+        {% endif %}
+    </div>
+
     <ul>
         {% for article in search.articles.articles %}
         <li>
-            <a href="{{ article.url }}">{{ article.title }}</a>
+            <a href="{{ article.url }}">{{ article.title }}</a> ({{ article.publishedAt }})
             <p>{{ article.description }}</p>
         </li>
         {% endfor %}

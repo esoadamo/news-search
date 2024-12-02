@@ -1,0 +1,10 @@
+.idea
+.venv
+*.sqlite3
+*.db
+config.toml
+data/
+Dockerfile
+docker-compose.yaml
+LICENSE
+README.md

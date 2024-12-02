@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  app:
+    image: esoadamo/news-search
+    restart: unless-stopped
+    build:
+      context: .
+    ports:
+      - "8080:8000"
+    volumes:
+      - ./db.sqlite3:/app/db.sqlite3
+      - ./.env:/app.env:ro

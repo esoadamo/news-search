@@ -42,11 +42,10 @@ def page_home():
             perform_search(search_query)
             search_new = True
         search = db['searches'][search_query]
-
-    search['articles']['articles'] = sorted(
-        search['articles']['articles'],
-        key=lambda x: datetime.fromisoformat(x['publishedAt']), reverse=True
-    )
+        search['articles']['articles'] = sorted(
+            search['articles']['articles'],
+            key=lambda x: datetime.fromisoformat(x['publishedAt']), reverse=True
+        )
 
     return render_template(
         'base.html',

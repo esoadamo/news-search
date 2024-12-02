@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <title>News Search</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,11 +7,21 @@
 <body>
 <div class="sidebar"></div>
 <div class="content">
-    <form method="post">
-        <input type="text" name="search" placeholder="Search news" aria-label="Search news">
+    <form>
+        <input type="text" name="search" placeholder="Search news" aria-label="Search news" value="{{ search_query }}">
         <button type="submit">Search</button>
     </form>
 
-
+    {% if search %}
+    <ul>
+        {% for article in search.articles.articles %}
+        <li>
+            <a href="{{ article.url }}">{{ article.title }}</a>
+            <p>{{ article.description }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
 </body>
 </html>

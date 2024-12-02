@@ -15,3 +15,7 @@ OR
 ```bash
 docker-compose up
 ```
+
+## Screenshot
+
+![Screenshot 2024-12-02 at 09-18-32 News Search](https://github.com/user-attachments/assets/ddbf8b9f-52c7-456b-ade2-47414b0c3bc6)
